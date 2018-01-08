@@ -6,7 +6,7 @@
 /*   By: qdequele <qdequele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 15:41:14 by qdequele          #+#    #+#             */
-/*   Updated: 2018/01/08 19:48:09 by qdequele         ###   ########.fr       */
+/*   Updated: 2018/01/08 20:36:47 by qdequele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@ int Account::_totalNbDeposits = 0;
 int Account::_totalNbWithdrawals = 0;
 
 int	Account::getNbAccounts( void ) {
-	return _nbAccounts;
+	return Account::_nbAccounts;
 }
 
 int	Account::getTotalAmount( void ) {
-	return _totalAmount;
+	return Account::_totalAmount;
 }
 
 int	Account::getNbDeposits( void ) {
-	return _totalNbDeposits;
+	return Account::_totalNbDeposits;
 }
 
 int	Account::getNbWithdrawals( void ) {
-	return _totalNbWithdrawals;
+	return Account::_totalNbWithdrawals;
 }
 
 void	Account::displayAccountsInfos( void ) {
