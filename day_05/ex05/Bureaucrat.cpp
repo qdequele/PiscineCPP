@@ -1,0 +1,134 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Bureaucrat.cpp                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qdequele <qdequele@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/01/15 10:58:22 by qdequele          #+#    #+#             */
+/*   Updated: 2018/01/15 19:46:57 by qdequele         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "Bureaucrat.hpp"
+
+/*
+ * COMPLIANCE FORM CONSTRUCTOR / DESTRUCTOR
+*/
+
+Bureaucrat::Bureaucrat()
+	: _name("noname"), _grade(150) {
+
+}
+
+Bureaucrat::Bureaucrat(std::string name, int grade)
+	: _name(name) {
+
+	if (grade < 1) {
+		throw Bureaucrat::GradeTooHighException();
+	} else if (grade > 150){
+		throw Bureaucrat::GradeTooLowException();
+	} else {
+		_grade = grade;
+	}
+
+}
+
+Bureaucrat::Bureaucrat(Bureaucrat const & src) {
+	*this = src;
+}
+
+Bureaucrat::~Bureaucrat() {
+}
+
+Bureaucrat &		Bureaucrat::operator=( Bureaucrat const & src ) {
+	if ( this != &src ) {
+		//do something
+	}
+	return *this;
+}
+
+bool				Bureaucrat::operator==( Bureaucrat const & src) {
+	if (_name == src.getName() && _grade == src.getGrade()) {
+		return true;
+	}
+	return false;
+}
+
+/*
+ * EXCEPTION
+*/
+
+const char* Bureaucrat::GradeTooHighException::what() const throw() {
+	return ("The Grade is too high. Please enter a grade between 1 and 150");
+}
+
+const char* Bureaucrat::GradeTooLowException::what() const throw() {
+	return ("The Grade is too low. Please enter a grade between 1 and 150");
+}
+
+/*
+ * GETTERS
+*/
+
+const std::string	Bureaucrat::getName() const {
+	return _name;
+}
+
+int					Bureaucrat::getGrade() const {
+	return _grade;
+}
+
+
+/*
+ * SETTERS
+*/
+
+void				Bureaucrat::upgrade() {
+	if (_grade - 1 < 1) {
+		throw Bureaucrat::GradeTooHighException();
+	} else {
+		_grade--;
+	}
+}
+
+void				Bureaucrat::downgrade() {
+	if (_grade + 1 > 150) {
+		throw Bureaucrat::GradeTooLowException();
+	} else {
+		_grade++;
+	}
+}
+
+/*
+ * METHOD
+*/
+
+void				Bureaucrat::signForm(Form& f) {
+	try {
+		f.beSigned(*this);
+		std::cout << _name << " signs " << f.getName() << std::endl;
+	} catch(std::exception& e) {
+		std::cout << _name << " cannot sign " << f.getName() << " because : " << e.what() << std::endl;
+	}
+}
+
+void				Bureaucrat::executeForm(Form& f) {
+	try {
+		f.execute(*this);
+		std::cout << _name << " executes " << f.getName() << std::endl;
+	} catch(std::exception& e) {
+		std::cout << _name << " cannot execute " << f.getName() << " because : " << e.what() << std::endl;
+	}
+}
+
+/*
+ * EXTERNAL OVERLORD
+*/
+
+
+std::ostream & operator<<( std::ostream & o, Bureaucrat const & f) {
+	o << f.getName() << ", bureaucrat grade " << f.getGrade() << ".";
+	return o;
+}
+
